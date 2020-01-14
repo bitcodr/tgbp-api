@@ -20,7 +20,7 @@ func (app *App) appConfig() {
 	AppConfig.SetConfigType("yaml")
 	AppConfig.SetConfigName("config")
 	AppConfig.AddConfigPath(app.ProjectDir)
-	AppConfig.AddConfigPath("/var/www/privatechanapi")
+	AppConfig.AddConfigPath("/var/www/tgbp-api")
 	err := AppConfig.ReadInConfig()
 	if err != nil {
 		log.Fatalln(err)
@@ -32,7 +32,7 @@ func (app *App) langConfig() {
 	LangConfig.SetConfigType("yaml")
 	LangConfig.SetConfigName("lang")
 	LangConfig.AddConfigPath(app.ProjectDir + "/lang")
-	LangConfig.AddConfigPath("/var/www/privatechanapi/lang")
+	LangConfig.AddConfigPath("/var/www/tgbp-api/lang")
 	err := LangConfig.ReadInConfig()
 	if err != nil {
 		log.Fatalln(err)
