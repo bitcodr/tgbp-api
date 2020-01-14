@@ -4,12 +4,11 @@ package routes
 import (
 	"github.com/amiraliio/tgbp-api/controller"
 	"net/http"
+	"github.com/gorilla/mux"
 )
 
 //Init ...
-func Init(mux *http.ServeMux) {
+func Init(mux *mux.Router) {
 
-    mux.HandleFunc("/user/:userID/receiver/:receiverID/direct-messages",  controller.GetDirectMessageList)
+	mux.HandleFunc("/user/{userID}/receiver/{receiverID}/direct-messages", controller.GetDirectMessageList).Methods(http.MethodGet)
 }
-
-//https://freshman.tech/web-development-with-go/

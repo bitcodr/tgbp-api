@@ -3,16 +3,26 @@ package main
 import (
 	"github.com/amiraliio/tgbp-api/config"
 	"github.com/amiraliio/tgbp-api/routes"
+	"github.com/gorilla/mux"
+	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
 
+	//get current directory
+	currentDir, err := os.Getwd()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
 	app := new(config.App)
-	app.SetAppConfig()
+	app.ProjectDir = currentDir
+
 	app.Environment()
 
-	mux := http.NewServeMux()
+	mux := mux.NewRouter()
 	routes.Init(mux)
 	http.ListenAndServe(":"+config.AppConfig.GetString("APP.PORT"), mux)
 }
