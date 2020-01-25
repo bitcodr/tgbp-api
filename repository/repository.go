@@ -19,7 +19,7 @@ func (repo *RepoService) GetAllDM(userID, receiverID int64) ([]*models.Message, 
 	app = app.SetAppConfig()
 	db := app.DB()
 	defer db.Close()
-	rows, err := db.Query("select me.message, me.createdAt, us.customID from messages as me inner join users as us on me.userID=us.userID where me.type=? and ((me.userID=? and me.receiver=?) or (me.receiver=? and me.userID=?)) order by me.createdAt asc, me.id asc", "DM", userID, receiverID, userID, receiverID)
+	rows, err := db.Query("select me.message, me.createdAt from messages as me inner join users as us on me.userID=us.userID where me.type=? and ((me.userID=? and me.receiver=?) or (me.receiver=? and me.userID=?)) order by me.createdAt asc, me.id asc", "DM", userID, receiverID, userID, receiverID)
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func (repo *RepoService) GetAllDM(userID, receiverID int64) ([]*models.Message, 
 	for rows.Next() {
 		message := new(models.Message)
 		user := new(models.User)
-		if err := rows.Scan(&message.Message, &message.CreatedAt, &user.CustomID); err != nil {
+		if err := rows.Scan(&message.Message, &message.CreatedAt); err != nil {
 			return nil, err
 		}
 		message.User = user
