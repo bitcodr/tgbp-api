@@ -4,6 +4,7 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
     <style>
         ul.timeline {
             list-style-type: none;
@@ -52,15 +53,15 @@
 </head>
 <body>
 
-    <div class="container mt-5 mb-5">
+    <div class="container">
         <div class="row">
-            <div class="col-md-6 col-sm-12 offset-md-3">
-                <h5 class="text-center">Direct Messages History</h5>
+            <div class="col-md-6 col-sm-6 offset-md-3">
+                <h5 class="text-center">Direct Messages History on {{(index . 0).Channel.ChannelType}} {{(index . 0).Channel.ChannelName}}</h5>
                 <hr>
                 <ul class="timeline">
                     {{range .}}
                     <li>
-                        {{/* <a class="blueColor">[User {{.User.CustomID}}],</a> */}}
+                        <a class="blueColor">{{.User.UserSign.Username}},</a>
                         <a class="blueColor" class="float-right">at {{.CreatedAt}}</a>
                         <p>{{.Message}}</p>
                     </li>

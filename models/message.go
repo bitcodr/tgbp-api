@@ -13,4 +13,5 @@ type Message struct {
 	Receiver         int64    `json:"receiver"`
 	Type             string   `json:"type"`
 	User             *User    `json:"user"`
+	Channel          *Channel `json:"channel"`
 }

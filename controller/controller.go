@@ -32,7 +32,12 @@ func GetDirectMessageList(res http.ResponseWriter, req *http.Request) {
 		log.Println(err)
 		return
 	}
-	allDM, err := getRepo().GetAllDM(userID, receiverID)
+	channelID, err := strconv.ParseInt(params["channelID"], 10, 0)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	allDM, err := getRepo().GetAllDM(userID, receiverID, channelID)
 	if err != nil {
 		log.Println(err)
 		return
