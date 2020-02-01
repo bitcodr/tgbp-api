@@ -1,5 +1,8 @@
-//Package models ...
-package models
+package user
+
+import (
+	"github.com/amiraliio/tgbp-api/domain/channel"
+)
 
 type User struct {
 	ID        int64         `json:"id"`
@@ -18,12 +21,12 @@ type User struct {
 }
 
 type UserUserName struct {
-	ID        int64    `json:"id"`
-	UserID    int64    `json:"userID"`
-	ChannelID int64    `json:"channelID"`
-	Username  string   `json:"username"`
-	CreatedAt string   `json:"createdAt"`
-	UpdatedAt string   `json:"updatedAt"`
-	User      *User    `json:"user"`
-	Channel   *Channel `json:"channel"`
+	ID        int64            `json:"id"`
+	UserID    int64            `json:"userID"`
+	ChannelID int64            `json:"channelID"`
+	Username  string           `json:"username"`
+	CreatedAt string           `json:"createdAt"`
+	UpdatedAt string           `json:"updatedAt"`
+	User      *User            `json:"user"`
+	Channel   *channel.Channel `json:"channel"`
 }

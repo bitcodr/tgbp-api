@@ -1,20 +1,22 @@
-//Package repository ...
-package repository
+//Package message ...
+package message
 
 import (
+	"github.com/pkg/errors"
 	"github.com/amiraliio/tgbp-api/config"
-	"github.com/amiraliio/tgbp-api/models"
+	"github.com/amiraliio/tgbp-api/domain/message"
 )
 
-type Repo interface {
-	GetAllDM(userID, receiverID, channelID int64) ([]*models.Message, error)
+// //TODO pagination for getAll messsages
+
+
+type messageRepo struct{}
+
+func NewMessageRepository() message.MessageRepository {
+	return &messageRepo{}
 }
 
-type RepoService struct{}
-
-//TODO pagination for getAll messsages
-
-func (repo *RepoService) GetAllDM(userID, receiverID, channelID int64) ([]*models.Message, error) {
+func (m *messageRepo) DirectMessagesList(userID, receiverID, channelID int64) (messages []*message.Message, error) {
 	app := new(config.App)
 	app = app.SetAppConfig()
 	db := app.DB()
@@ -24,19 +26,18 @@ func (repo *RepoService) GetAllDM(userID, receiverID, channelID int64) ([]*model
 		return nil, err
 	}
 	defer rows.Close()
-	var messages []*models.Message
 	for rows.Next() {
 		message := new(models.Message)
 		user := new(models.User)
 		username := new(models.UserUserName)
 		channel := new(models.Channel)
-		if err := rows.Scan(&message.UserID,&message.Message, &message.CreatedAt, &username.Username, &channel.ChannelName, &channel.ChannelType); err != nil {
-			return nil, err
+		if err := rows.Scan(&message.UserID, &message.Message, &message.CreatedAt, &username.Username, &channel.ChannelName, &channel.ChannelType); err != nil {
+			return nil, errors.Wrap(err,"repository.mysql.Message.DirectMessagesList")
 		}
-		if message.UserID == userID{
+		if message.UserID == userID {
 			username.Username = "You"
-		}else{
-			username.Username = "[User "+username.Username+"]"
+		} else {
+			username.Username = "[User " + username.Username + "]"
 		}
 		user.UserSign = username
 		message.User = user
@@ -45,3 +46,5 @@ func (repo *RepoService) GetAllDM(userID, receiverID, channelID int64) ([]*model
 	}
 	return messages, nil
 }
+
+
