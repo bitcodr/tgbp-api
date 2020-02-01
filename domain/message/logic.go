@@ -3,7 +3,7 @@ package message
 
 import "errors"
 
-//repo <-via aport<- service -> serializer -> http
+//repo <-via aport<- service -> serializer -> rest
 //validate of data should be in here
 
 var (

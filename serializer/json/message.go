@@ -18,9 +18,9 @@ func (m *Message) Encode(input *message.Message) ([]byte, error) {
 }
 
 func (m *Message) Decode(input []byte) (*message.Message, error) {
-	message := new(message.Message)
-	if err := json.Unmarshal(input, message); err != nil {
+	messageModel := new(message.Message)
+	if err := json.Unmarshal(input, messageModel); err != nil {
 		return nil, errors.Wrap(err, "serializer.Message.Decode")
 	}
-	return message, nil
+	return messageModel, nil
 }

@@ -26,3 +26,6 @@ func main() {
 	routes.Init(mux)
 	http.ListenAndServe(":"+config.AppConfig.GetString("APP.PORT"), mux)
 }
+
+
+
