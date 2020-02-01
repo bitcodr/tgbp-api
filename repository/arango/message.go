@@ -1,12 +1,20 @@
+//Package arango ...
 package arango
 
-import "github.com/amiraliio/tgbp-api/domain/message"
+import (
+	"github.com/amiraliio/tgbp-api/config"
+	"github.com/amiraliio/tgbp-api/domain/message"
+)
 
-type messageRepo struct{}
+type messageRepo struct{
+	appConfig config.AppConfig
+}
 
 
-func NewArangoMessageRepository() message.MessageRepository{
-	return &messageRepo{}
+func NewArangoMessageRepository(appConfig config.AppConfig) message.MessageRepository{
+	return &messageRepo{
+		appConfig
+	}
 }
 
 
