@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/amiraliio/tgbp-api/repository/mysql"
 	"github.com/amiraliio/tgbp-api/config"
 	"github.com/amiraliio/tgbp-api/routes"
 	"github.com/gorilla/mux"
@@ -22,6 +23,7 @@ func main() {
 
 	app.Environment()
 
+	repo := mysql.
 	mux := mux.NewRouter()
 	routes.Init(mux)
 	http.ListenAndServe(":"+config.AppConfig.GetString("APP.PORT"), mux)

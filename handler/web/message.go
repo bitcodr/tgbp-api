@@ -19,7 +19,9 @@ type messageHandler struct {
 }
 
 func NewWebMessageHandler(messageService message.MessageService) handler.MessageHandler {
-	return &messageHandler{messageService: messageService}
+	return &messageHandler{
+		messageService,
+	}
 }
 
 func (h *messageHandler) serializer(contentType string) message.MessageSerializer {
