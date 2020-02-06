@@ -1,12 +1,10 @@
-//Package message ...
+//Package mysql ...
 package mysql
 
 import (
 	"database/sql"
 	"github.com/amiraliio/tgbp-api/config"
-	"github.com/amiraliio/tgbp-api/domain/channel"
 	"github.com/amiraliio/tgbp-api/domain/message"
-	"github.com/amiraliio/tgbp-api/domain/user"
 	"github.com/pkg/errors"
 )
 
@@ -14,13 +12,13 @@ import (
 
 type messageRepo struct {
 	db *sql.DB
-	appConfig config.App
+	appConfig *config.App
 	//TODO mysql client
 	//TODO mysql close
 	//TODO APP Config
 }
 
-func NewMysqlMessageRepository(db *sql.DB, appConfig config.App) message.MessageRepository {
+func NewMysqlMessageRepository(db *sql.DB, appConfig *config.App) message.MessageRepository {
 	return &messageRepo{
 		db,
 		appConfig,
@@ -37,9 +35,9 @@ func (m *messageRepo) DirectMessagesList(userID, receiverID, channelID int64) ([
 	var messages []*message.Message
 	for rows.Next() {
 		messageModel := new(message.Message)
-		userModel := new(user.User)
-		username := new(user.UserUserName)
-		channelModel := new(channel.Channel)
+		userModel := new(message.User)
+		username := new(message.UserUserName)
+		channelModel := new(message.Channel)
 		if err := rows.Scan(&messageModel.UserID, &messageModel.Message, &messageModel.CreatedAt, &username.Username, &channelModel.ChannelName, &channelModel.ChannelType); err != nil {
 			return nil, errors.Wrap(err, "repository.mysql.Message.DirectMessagesList")
 		}

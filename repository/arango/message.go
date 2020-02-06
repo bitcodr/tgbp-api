@@ -7,10 +7,10 @@ import (
 )
 
 type messageRepo struct {
-	appConfig config.App
+	appConfig *config.App
 }
 
-func NewArangoMessageRepository(appConfig config.App) message.MessageRepository {
+func NewArangoMessageRepository(appConfig *config.App) message.MessageRepository {
 	return &messageRepo{
 		appConfig,
 	}
