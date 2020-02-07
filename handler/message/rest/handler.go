@@ -5,16 +5,19 @@ import (
 	"net/http"
 
 	domain "github.com/amiraliio/tgbp-api/domain/message"
-	handler "github.com/amiraliio/tgbp-api/handler/message"
 	"github.com/amiraliio/tgbp-api/serializer/json"
 	"github.com/amiraliio/tgbp-api/serializer/msgpack"
 )
+
+type MessageHandler interface {
+	GetDirectMessages(res http.ResponseWriter, req *http.Request)
+}
 
 type messageHandler struct {
 	messageService domain.MessageService
 }
 
-func NewRestMessageHandler(messageService domain.MessageService) handler.MessageHandler {
+func NewRestMessageHandler(messageService domain.MessageService) MessageHandler {
 	return &messageHandler{
 		messageService,
 	}

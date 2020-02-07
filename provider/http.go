@@ -19,8 +19,7 @@ func HTTP() {
 
 	router := mux.NewRouter()
 
-	//Implements routes in here
-	message.Routes(app, router)
+	message.HTTP(app, router)
 
 	errs := make(chan error, 2)
 
@@ -37,8 +36,4 @@ func HTTP() {
 
 	fmt.Printf("terminated %s", <-errs)
 
-}
-
-func GRPC() {
-	//TODO GRPC handlers
 }

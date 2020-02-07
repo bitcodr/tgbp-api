@@ -8,16 +8,19 @@ import (
 	"strconv"
 
 	domain "github.com/amiraliio/tgbp-api/domain/message"
-	handler "github.com/amiraliio/tgbp-api/handler/message"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
 )
+
+type MessageHandler interface {
+	GetDirectMessages(res http.ResponseWriter, req *http.Request)
+}
 
 type messageHandler struct {
 	messageService domain.MessageService
 }
 
-func NewWebMessageHandler(messageService domain.MessageService) handler.MessageHandler {
+func NewWebMessageHandler(messageService domain.MessageService) MessageHandler {
 	return &messageHandler{
 		messageService,
 	}
