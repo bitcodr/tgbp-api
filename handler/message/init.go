@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/amiraliio/tgbp-api/config"
-	domain "github.com/amiraliio/tgbp-api/domain/message"
+
 	web "github.com/amiraliio/tgbp-api/handler/message/web"
 	"github.com/amiraliio/tgbp-api/repository/arango"
 	"github.com/amiraliio/tgbp-api/repository/mysql"

@@ -1,3 +1,0 @@
-//Package channel ...
-package channel
-

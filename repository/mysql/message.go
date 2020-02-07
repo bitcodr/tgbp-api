@@ -2,8 +2,12 @@
 package mysql
 
 import (
+	"reflect"
+
 	"github.com/amiraliio/tgbp-api/config"
+	"github.com/amiraliio/tgbp-api/domain/channel"
 	"github.com/amiraliio/tgbp-api/domain/message"
+	"github.com/amiraliio/tgbp-api/domain/user"
 	"github.com/pkg/errors"
 )
 
@@ -30,9 +34,9 @@ func (m *messageRepo) DirectMessagesList(userID, receiverID, channelID int64) ([
 	var messages []*message.Message
 	for rows.Next() {
 		messageModel := new(message.Message)
-		userModel := new(message.User)
-		username := new(message.UserUserName)
-		channelModel := new(message.Channel)
+		userModel := new(user.User)
+		username := new(user.UserUserName)
+		channelModel := new(channel.Channel)
 		if err := rows.Scan(&messageModel.UserID, &messageModel.Message, &messageModel.CreatedAt, &username.Username, &channelModel.ChannelName, &channelModel.ChannelType); err != nil {
 			return nil, errors.Wrap(err, "repository.mysql.Message.DirectMessagesList")
 		}

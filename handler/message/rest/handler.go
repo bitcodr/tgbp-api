@@ -2,9 +2,10 @@
 package rest
 
 import (
+	"github.com/amiraliio/tgbp-api/domain/service"
 	"net/http"
 
-	domain "github.com/amiraliio/tgbp-api/domain/message"
+
 	"github.com/amiraliio/tgbp-api/serializer/json"
 	"github.com/amiraliio/tgbp-api/serializer/msgpack"
 )
@@ -14,16 +15,16 @@ type MessageHandler interface {
 }
 
 type messageHandler struct {
-	messageService domain.MessageService
+	messageService service.MessageService
 }
 
-func NewRestMessageHandler(messageService domain.MessageService) MessageHandler {
+func NewRestMessageHandler(messageService service.MessageService) MessageHandler {
 	return &messageHandler{
 		messageService,
 	}
 }
 
-func (h *messageHandler) serializer(contentType string) domain.MessageSerializer {
+func (h *messageHandler) serializer(contentType string) service.MessageSerializer {
 	switch contentType {
 	case "application/json":
 		return &json.Message{}
