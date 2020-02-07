@@ -2,7 +2,6 @@
 package mysql
 
 import (
-	"database/sql"
 	"github.com/amiraliio/tgbp-api/config"
 	"github.com/amiraliio/tgbp-api/domain/message"
 	"github.com/pkg/errors"
@@ -11,23 +10,19 @@ import (
 //TODO pagination for getAll messages
 
 type messageRepo struct {
-	db *sql.DB
-	appConfig *config.App
-	//TODO mysql client
-	//TODO mysql close
-	//TODO APP Config
+	app *config.App
 }
 
-func NewMysqlMessageRepository(db *sql.DB, appConfig *config.App) message.MessageRepository {
+func NewMysqlMessageRepository(app *config.App) message.MessageRepository {
 	return &messageRepo{
-		db,
-		appConfig,
+		app,
 	}
 }
 
 func (m *messageRepo) DirectMessagesList(userID, receiverID, channelID int64) ([]*message.Message, error) {
-	defer m.db.Close()
-	rows, err := m.db.Query("select me.userID, me.message, me.createdAt, uu.username,cha.channelName, cha.channelType from messages as me inner join users as us on me.userID=us.userID inner join users_usernames as uu on uu.userID=us.id and me.channelID=uu.channelID inner join channels as cha on cha.id=me.channelID where me.type=? and me.channelID=? and ((me.userID=? and me.receiver=?) or (me.receiver=? and me.userID=?)) order by me.createdAt asc, me.id asc", "DM", channelID, userID, receiverID, userID, receiverID)
+	db := m.app.DB()
+	defer db.Close()
+	rows, err := db.Query("select me.userID, me.message, me.createdAt, uu.username,cha.channelName, cha.channelType from messages as me inner join users as us on me.userID=us.userID inner join users_usernames as uu on uu.userID=us.id and me.channelID=uu.channelID inner join channels as cha on cha.id=me.channelID where me.type=? and me.channelID=? and ((me.userID=? and me.receiver=?) or (me.receiver=? and me.userID=?)) order by me.createdAt asc, me.id asc", "DM", channelID, userID, receiverID, userID, receiverID)
 	if err != nil {
 		return nil, err
 	}

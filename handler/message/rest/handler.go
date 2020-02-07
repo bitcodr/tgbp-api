@@ -2,24 +2,25 @@
 package rest
 
 import (
-	"github.com/amiraliio/tgbp-api/domain/message"
-	"github.com/amiraliio/tgbp-api/handler"
+	"net/http"
+
+	domain "github.com/amiraliio/tgbp-api/domain/message"
+	handler "github.com/amiraliio/tgbp-api/handler/message"
 	"github.com/amiraliio/tgbp-api/serializer/json"
 	"github.com/amiraliio/tgbp-api/serializer/msgpack"
-	"net/http"
 )
 
 type messageHandler struct {
-	messageService message.MessageService
+	messageService domain.MessageService
 }
 
-func NewRestMessageHandler(messageService message.MessageService) handler.MessageHandler {
+func NewRestMessageHandler(messageService domain.MessageService) handler.MessageHandler {
 	return &messageHandler{
 		messageService,
 	}
 }
 
-func (h *messageHandler) serializer(contentType string) message.MessageSerializer {
+func (h *messageHandler) serializer(contentType string) domain.MessageSerializer {
 	switch contentType {
 	case "application/json":
 		return &json.Message{}
@@ -31,5 +32,5 @@ func (h *messageHandler) serializer(contentType string) message.MessageSerialize
 }
 
 func (h *messageHandler) GetDirectMessages(res http.ResponseWriter, req *http.Request) {
-//TODO
+	//TODO
 }

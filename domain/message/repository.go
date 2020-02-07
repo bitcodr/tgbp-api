@@ -4,3 +4,6 @@ package message
 type MessageRepository interface {
 	DirectMessagesList(userID, receiverID, channelID int64) ([]*Message, error)
 }
+
+
+

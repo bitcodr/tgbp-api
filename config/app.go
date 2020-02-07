@@ -22,7 +22,7 @@ var (
 	LangConfig *viper.Viper
 )
 
-func (app *App) Environment() {
+func (app *App) Init() {
 	app.appConfig()
 	app.langConfig()
 	app.setAppConfig()

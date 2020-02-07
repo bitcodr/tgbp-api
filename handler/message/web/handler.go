@@ -2,27 +2,26 @@
 package web
 
 import (
-	"github.com/amiraliio/tgbp-api/domain/message"
-	"github.com/amiraliio/tgbp-api/handler"
-	"github.com/gorilla/mux"
-	"github.com/pkg/errors"
 	"html/template"
 	"log"
 	"net/http"
 	"strconv"
+
+	domain "github.com/amiraliio/tgbp-api/domain/message"
+	handler "github.com/amiraliio/tgbp-api/handler/message"
+	"github.com/gorilla/mux"
+	"github.com/pkg/errors"
 )
 
 type messageHandler struct {
-	messageService message.MessageService
+	messageService domain.MessageService
 }
 
-func NewWebMessageHandler(messageService message.MessageService) handler.MessageHandler {
+func NewWebMessageHandler(messageService domain.MessageService) handler.MessageHandler {
 	return &messageHandler{
 		messageService,
 	}
 }
-
-
 
 func (h *messageHandler) GetDirectMessages(res http.ResponseWriter, req *http.Request) {
 	params := mux.Vars(req)
@@ -47,7 +46,7 @@ func (h *messageHandler) GetDirectMessages(res http.ResponseWriter, req *http.Re
 	}
 	messages, err := h.messageService.DirectMessagesList(userID, receiverID, channelID)
 	if err != nil {
-		if errors.Cause(err) == message.ErrMessageNotFound {
+		if errors.Cause(err) == domain.ErrMessageNotFound {
 			http.Error(res, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 			return
 		}
