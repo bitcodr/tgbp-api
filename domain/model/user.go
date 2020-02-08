@@ -13,7 +13,7 @@ type User struct {
 	CustomID     string        `json:"customID"`
 	CreatedAt    string        `json:"createdAt"`
 	UpdatedAt    string        `json:"updatedAt"`
-	UserUserName *UserUserName `json:"userUserName"`
+	UserSign *UserUserName `json:"userSign"`
 }
 
 type UserUserName struct {

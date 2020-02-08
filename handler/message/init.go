@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/amiraliio/tgbp-api/config"
-
-	web "github.com/amiraliio/tgbp-api/handler/message/web"
+	"github.com/amiraliio/tgbp-api/domain/service"
+	"github.com/amiraliio/tgbp-api/handler/message/web"
 	"github.com/amiraliio/tgbp-api/repository/arango"
 	"github.com/amiraliio/tgbp-api/repository/mysql"
 	"github.com/gorilla/mux"
@@ -17,7 +17,7 @@ const (
 	WEB_DIRECT_MESSAGES_HISTORY = "WEB_DIRECT_MESSAGES_HISTORY"
 )
 
-func chooseMessageRepo(connection string, app *config.App) domain.MessageRepository {
+func chooseMessageRepo(connection string, app *config.App) service.MessageRepository {
 	switch connection {
 	case "mysql":
 		return mysql.NewMysqlMessageRepository(app)
@@ -32,7 +32,7 @@ func HTTP(app *config.App, router *mux.Router) {
 
 	messageRepo := chooseMessageRepo("mysql", app)
 
-	messageService := domain.NewMessageService(messageRepo)
+	messageService := service.NewMessageService(messageRepo)
 
 	messageWebHandler := web.NewWebMessageHandler(messageService)
 

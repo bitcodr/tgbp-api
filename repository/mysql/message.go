@@ -2,12 +2,9 @@
 package mysql
 
 import (
-	"reflect"
-
 	"github.com/amiraliio/tgbp-api/config"
-	"github.com/amiraliio/tgbp-api/domain/channel"
-	"github.com/amiraliio/tgbp-api/domain/message"
-	"github.com/amiraliio/tgbp-api/domain/user"
+	"github.com/amiraliio/tgbp-api/domain/model"
+	"github.com/amiraliio/tgbp-api/domain/service"
 	"github.com/pkg/errors"
 )
 
@@ -17,13 +14,13 @@ type messageRepo struct {
 	app *config.App
 }
 
-func NewMysqlMessageRepository(app *config.App) message.MessageRepository {
+func NewMysqlMessageRepository(app *config.App) service.MessageRepository {
 	return &messageRepo{
 		app,
 	}
 }
 
-func (m *messageRepo) DirectMessagesList(userID, receiverID, channelID int64) ([]*message.Message, error) {
+func (m *messageRepo) DirectMessagesList(userID, receiverID, channelID int64) ([]*model.Message, error) {
 	db := m.app.DB()
 	defer db.Close()
 	rows, err := db.Query("select me.userID, me.message, me.createdAt, uu.username,cha.channelName, cha.channelType from messages as me inner join users as us on me.userID=us.userID inner join users_usernames as uu on uu.userID=us.id and me.channelID=uu.channelID inner join channels as cha on cha.id=me.channelID where me.type=? and me.channelID=? and ((me.userID=? and me.receiver=?) or (me.receiver=? and me.userID=?)) order by me.createdAt asc, me.id asc", "DM", channelID, userID, receiverID, userID, receiverID)
@@ -31,12 +28,12 @@ func (m *messageRepo) DirectMessagesList(userID, receiverID, channelID int64) ([
 		return nil, err
 	}
 	defer rows.Close()
-	var messages []*message.Message
+	var messages []*model.Message
 	for rows.Next() {
-		messageModel := new(message.Message)
-		userModel := new(user.User)
-		username := new(user.UserUserName)
-		channelModel := new(channel.Channel)
+		messageModel := new(model.Message)
+		userModel := new(model.User)
+		username := new(model.UserUserName)
+		channelModel := new(model.Channel)
 		if err := rows.Scan(&messageModel.UserID, &messageModel.Message, &messageModel.CreatedAt, &username.Username, &channelModel.ChannelName, &channelModel.ChannelType); err != nil {
 			return nil, errors.Wrap(err, "repository.mysql.Message.DirectMessagesList")
 		}

@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
-	domain "github.com/amiraliio/tgbp-api/domain/message"
+	"github.com/amiraliio/tgbp-api/domain/service"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
 )
@@ -17,10 +17,10 @@ type MessageHandler interface {
 }
 
 type messageHandler struct {
-	messageService domain.MessageService
+	messageService service.MessageService
 }
 
-func NewWebMessageHandler(messageService domain.MessageService) MessageHandler {
+func NewWebMessageHandler(messageService service.MessageService) MessageHandler {
 	return &messageHandler{
 		messageService,
 	}
@@ -49,7 +49,7 @@ func (h *messageHandler) GetDirectMessages(res http.ResponseWriter, req *http.Re
 	}
 	messages, err := h.messageService.DirectMessagesList(userID, receiverID, channelID)
 	if err != nil {
-		if errors.Cause(err) == domain.ErrMessageNotFound {
+		if errors.Cause(err) == service.ErrMessageNotFound {
 			http.Error(res, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 			return
 		}

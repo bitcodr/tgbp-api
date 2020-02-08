@@ -2,10 +2,9 @@
 package rest
 
 import (
-	"github.com/amiraliio/tgbp-api/domain/service"
 	"net/http"
 
-
+	"github.com/amiraliio/tgbp-api/domain/service"
 	"github.com/amiraliio/tgbp-api/serializer/json"
 	"github.com/amiraliio/tgbp-api/serializer/msgpack"
 )
