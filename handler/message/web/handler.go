@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/amiraliio/tgbp-api/config"
 	"github.com/amiraliio/tgbp-api/domain/service"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
@@ -29,7 +30,7 @@ func NewWebMessageHandler(messageService service.MessageService) MessageHandler 
 func (h *messageHandler) GetDirectMessages(res http.ResponseWriter, req *http.Request) {
 	params := mux.Vars(req)
 	if params == nil {
-		log.Println("params are empty")
+		log.Println(config.LangConfig.GetString("MESSAGES.PARAM_EMPTY"))
 		return
 	}
 	userID, err := strconv.ParseInt(params["userID"], 10, 0)
